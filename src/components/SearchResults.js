@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect} from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
@@ -13,8 +14,8 @@ const SearchResults = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [resultsPerPage, setResultsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
-  
-  
+  let navigate = useNavigate(); 
+ 
   
   useEffect(() => {
     
@@ -22,7 +23,12 @@ const SearchResults = () => {
    
   }, []);
 
- 
+  const gotoFavourites = () =>{ 
+    let path = `/favourites`; 
+    navigate(path);
+  }
+
+
   const fetchData = () => {
     axios
       .get(`https://kitsu.io/api/edge/anime?page[limit]=${resultsPerPage}&page[offset]=${(currentPage - 1) * resultsPerPage}`)
@@ -113,7 +119,7 @@ for (let i = 1; i <= Math.ceil(data.length / resultsPerPage); i++) {
             Next
         </button>
       </div>
-      <button type="button" className="favoris">
+      <button type="button" className="favoris" onClick={gotoFavourites}>
 	      <span className="favoris-text">
 		      <span>Voir les favoris</span>
 	      </span>
